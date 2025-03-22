@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verification Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --success-color: #4CAF50;
+            --success-light: #e8f5e9;
+            --text-color: #333;
+            --light-color: #f8f9fa;
+            --border-color: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+            animation: slideUp 0.8s ease-in-out;
+        }
+        
+        .success-header {
+            background: linear-gradient(45deg, var(--success-color), #45a049);
+            padding: 40px 20px;
+            color: white;
+        }
+        
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-in-out 0.3s both;
+        }
+        
+        .checkmark {
+            color: var(--success-color);
+            font-size: 50px;
+            animation: fadeIn 0.8s ease-in-out 0.5s forwards;
+            opacity: 0;
+        }
+        
+        .success-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .success-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .success-body {
+            padding: 40px 30px;
+        }
+        
+        .email-box {
+            background-color: var(--success-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0 30px;
+            display: inline-block;
+        }
+        
+        .email {
+            font-weight: 600;
+            color: var(--success-color);
+            word-break: break-all;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(67, 97, 238, 0.25);
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        /* Confetti effect */
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #f2d74e;
+            opacity: 0.7;
+            animation: confetti 5s ease-in-out infinite;
+        }
+        
+        .confetti:nth-child(2n) {
+            background-color: #95c3de;
+        }
+        
+        .confetti:nth-child(3n) {
+            background-color: #ff9a91;
+        }
+        
+        .confetti:nth-child(4n) {
+            background-color: #f2d74e;
+        }
+        
+        .confetti:nth-child(5n) {
+            background-color: #4361ee;
+        }
+        
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Confetti elements -->
+    <div id="confetti-container"></div>
+    
+    <div class="success-container">
+        <div class="success-header">
+            <div class="checkmark-circle">
+                <i class="fas fa-check checkmark"></i>
+            </div>
+            <h1>Verification Successful!</h1>
+            <p>Your email has been verified</p>
+        </div>
+        
+        <div class="success-body">
+            <p>Thank you for verifying your email address:</p>
+            <div class="email-box">
+                <span class="email">{{ email }}</span>
+            </div>
+            
+            <a href="{{ url_for('index') }}" class="btn">
+                <i class="fas fa-home"></i> Return to Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Create confetti effect
+        const confettiContainer = document.getElementById('confetti-container');
+        const confettiCount = 50;
+        
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            
+            // Random position
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = -Math.random() * 100 + 'px';
+            
+            // Random sizes
+            confetti.style.width = Math.random() * 10 + 5 + 'px';
+            confetti.style.height = Math.random() * 10 + 5 + 'px';
+            
+            // Random rotation
+            confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+            
+            // Random delay and duration
+            confetti.style.animationDelay = Math.random() * 5 + 's';
+            confetti.style.animationDuration = Math.random() * 3 + 5 + 's';
+            
+            confettiContainer.appendChild(confetti);
+        }
+    </script>
+</body>
+</html>
