@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #4361ee;
+            --primary-hover: #3a56d4;
+            --secondary-color: #3f37c9;
+            --text-color: #333;
+            --light-color: #f8f9fa;
+            --border-color: #e0e0e0;
+            --success-color: #4CAF50;
+            --error-color: #dc3545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .form-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .form-header {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 25px;
+            text-align: center;
+            color: white;
+        }
+        
+        .form-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .form-header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .form-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .form-body {
+            padding: 30px;
+        }
+        
+        .message {
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .message i {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .error {
+            background-color: #fff5f5;
+            color: var(--error-color);
+            border-left: 4px solid var(--error-color);
+        }
+        
+        .success {
+            background-color: #f0fff4;
+            color: var(--success-color);
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .email-info {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .email-address {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 22px;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            outline: none;
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+        }
+        
+        button i {
+            margin-left: 8px;
+        }
+        
+        .countdown {
+            text-align: center;
+            margin-top: 12px;
+            color: #666;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .countdown i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+        
+        .resend {
+            margin-top: 25px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .resend p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .resend a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+            transition: all 0.3s;
+        }
+        
+        .resend a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .design-element {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.05;
+        }
+        
+        .design-1 {
+            top: -150px;
+            left: -150px;
+        }
+        
+        .design-2 {
+            bottom: -150px;
+            right: -150px;
+        }
+        
+        /* Digit animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .input-group input:focus {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="design-element design-1"></div>
+    <div class="design-element design-2"></div>
+    
+    <div class="form-container">
+        <div class="form-header">
+            <div class="form-icon"><i class="fas fa-shield-alt"></i></div>
+            <h2>Verification Code</h2>
+            <p>Enter the code sent to your email</p>
+        </div>
+        
+        <div class="form-body">
+            {% if message %}
+            <div class="message {{ message_class }}">
+                <i class="fas fa-{% if message_class == 'error' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                {{ message }}
+            </div>
+            {% endif %}
+            
+            <div class="email-info">
+                We've sent a verification code to<br>
+                <span class="email-address">{{ email }}</span>
+            </div>
+            
+            <form action="{{ url_for('validate') }}" method="POST">
+                <input type="hidden" name="email" value="{{ email }}">
+                <div class="form-group">
+                    <label for="otp">Enter 6-digit verification code</label>
+                    <div class="input-group">
+                        <input type="text" id="otp" name="otp" required maxlength="6" 
+                               placeholder="------" autocomplete="one-time-code" inputmode="numeric">
+                    </div>
+                    <div class="countdown" id="timer">
+                        <i class="fas fa-clock"></i> <span>Code expires in: 10:00</span>
+                    </div>
+                </div>
+                <button type="submit">Verify Code <i class="fas fa-check-circle"></i></button>
+            </form>
+            
+            <div class="resend">
+                <p>Didn't receive the code? <a href="{{ url_for('verify') }}?email={{ email }}"><i class="fas fa-sync-alt"></i> Resend Code</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 600; // 10 minutes in seconds
+        const timerElement = document.querySelector('#timer span');
+        
+        const countdown = setInterval(function() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            // Display time in MM:SS format
+            timerElement.textContent = 'Code expires in: ' + 
+                                      minutes.toString().padStart(2, '0') + ':' + 
+                                      seconds.toString().padStart(2, '0');
+            
+            timeLeft--;
+            
+            if (timeLeft < 0) {
+                clearInterval(countdown);
+                timerElement.textContent = 'Code expired. Please request a new one.';
+                document.getElementById('timer').style.color = var(--error-color);
+            }
+        }, 1000);
+        
+        // Auto focus to input and format as it's entered
+        const otpInput = document.getElementById('otp');
+        otpInput.focus();
+        
+        otpInput.addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+    </script>
+</body>
+</html>
